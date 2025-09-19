@@ -1,13 +1,21 @@
-myblog/
-├─ index.html            # 首页
-├─ post.html             # 文章页面
-├─ archive.html          # 文章归档页
-├─ style.css             # 样式
-├─ script.js             # 首页/文章列表脚本（搜索/分页/标签/主题切换）
-├─ script-archive.js     # 归档页脚本
-├─ articles.json         # 文章数据
-├─ images/               # 图片
-├─ music/                # 音乐
+myblog/                   ← 博客根目录（上传到 GitHub Pages）
+│
+├─ index.html             ← 首页，显示文章列表、搜索、标签筛选、分页
+├─ post.html              ← 文章页面，显示文章正文、多媒体、Giscus 评论
+├─ archive.html           ← 文章归档页，按年份/月分类显示文章
+│
+├─ style.css              ← 样式文件，控制页面布局、颜色、深色模式
+├─ script.js              ← 首页和文章页脚本，处理搜索、分页、标签筛选、文章渲染、主题切换
+├─ script-archive.js      ← 归档页脚本，处理按年月分类显示文章
+├─ articles.json          ← 文章数据文件，存放所有文章内容（文字、图片、YouTube、音乐、标签、日期）
+│
+├─ images/                ← 图片资源文件夹
+│   ├─ sunset.jpg         ← 示例文章图片
+│   └─ beach.jpg          ← 示例文章图片
+│
+└─ music/                 ← 音乐资源文件夹
+    └─ song.mp3           ← 示例文章音乐
+
 
 ✅ 功能总结
 
