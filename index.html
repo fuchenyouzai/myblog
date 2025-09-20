@@ -111,24 +111,22 @@ a.admin-btn:hover { background-color:#b71c1c; }
   border:none;
 }
 
-/* ===== 右上角竖长方形安装按钮 ===== */
+/* ===== 右上角安装按钮（长方形） ===== */
 #install-btn {
   position: fixed;
   top: 20px;
   right: 20px;
   z-index: 999;
-  width: 120px;
+  width: 150px;
+  height: 50px;
   background-color: #4CAF50;
   color: white;
-  border-radius: 12px;
-  font-size: 14px;
+  border-radius: 8px;
+  font-size: 16px;
   font-weight: bold;
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 12px 8px;
-  line-height: 1.5;
   text-align: center;
   cursor: pointer;
   box-shadow: 0 4px 8px rgba(0,0,0,0.2);
@@ -256,12 +254,7 @@ a.admin-btn:hover { background-color:#b71c1c; }
 
 <!-- 安装按钮 -->
 <div id="install-btn">
-  点击安装<br>
-  悠哉博客<br>
-  WebApk<br>
-  支持手机<br>
-  支持电脑<br>
-  支持平板
+  安装至设备
 </div>
 
 <!-- 右下角按钮 -->
@@ -407,8 +400,7 @@ let livePlayer;
 let soundOn = false;
 
 function onYouTubeIframeAPIReady() {
-  // 自动获取最新直播 ID，这里可替换为真实 API
-  const latestLiveID = 'fN9uYWCjQaw';
+  const latestLiveID = 'fN9uYWCjQaw'; // 最新直播 ID
   livePlayer = new YT.Player('live-player', {
     videoId: latestLiveID,
     playerVars: { autoplay: 1, mute: 1, controls: 1, modestbranding: 1 },
