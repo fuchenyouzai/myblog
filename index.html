@@ -49,7 +49,7 @@ a.admin-btn:hover{background-color:#b71c1c;}
   font-weight: bold;
   box-shadow: 0 4px 8px rgba(0,0,0,0.2);
   cursor: pointer;
-  display: block; /* 始终显示 */
+  display: block;
   transition: background-color 0.3s, transform 0.2s;
   font-size: 14px;
   animation: float 2s infinite ease-in-out, shake 1.5s infinite;
@@ -57,6 +57,26 @@ a.admin-btn:hover{background-color:#b71c1c;}
 #install-btn:hover { background-color: #388E3C; transform: scale(1.1); }
 @keyframes float {0%,100%{transform:translateY(0);}50%{transform:translateY(-5px);}}
 @keyframes shake {0%,100%{transform:translateX(0);}25%{transform:translateX(-3px);}75%{transform:translateX(3px);}}
+
+/* 打开声音按钮悬浮 */
+#unmute-btn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 1000;
+  background-color: #e53935;
+  color: white;
+  padding: 12px 18px;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  transition: background-color 0.3s, transform 0.2s;
+}
+#unmute-btn:hover {
+  background-color: #b71c1c;
+  transform: scale(1.05);
+}
 </style>
 </head>
 <body>
@@ -108,7 +128,7 @@ a.admin-btn:hover{background-color:#b71c1c;}
 <h2>凤凰卫视直播台</h2>
 <p>正在播放凤凰卫视直播：</p>
 <div class="video-container">
-  <iframe src="https://www.youtube.com/embed/fN9uYWCjQaw?autoplay=1&mute=1" title="凤凰卫视直播" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
+  <iframe id="live-iframe" src="https://www.youtube.com/embed/fN9uYWCjQaw?autoplay=1&mute=1" title="凤凰卫视直播" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
 </div>
 </article>
 
@@ -174,6 +194,9 @@ a.admin-btn:hover{background-color:#b71c1c;}
 
 <!-- 安装按钮 -->
 <button id="install-btn">📲 点击安装悠哉WebAPK到设备 ᖰ⌯'▾'⌯ᖳ</button>
+
+<!-- 打开声音按钮 -->
+<button id="unmute-btn">🔊 打开声音</button>
 
 <!-- Gitalk -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
@@ -310,6 +333,14 @@ document.addEventListener('DOMContentLoaded', () => {
     } else {
       alert("当前浏览器不支持自动安装，请使用 Chrome 或 Edge 浏览器。");
     }
+  });
+
+  // 打开声音按钮逻辑
+  const liveIframe = document.getElementById('live-iframe');
+  const unmuteBtn = document.getElementById('unmute-btn');
+  unmuteBtn.addEventListener('click', () => {
+    liveIframe.src = liveIframe.src.replace('mute=1', 'mute=0');
+    unmuteBtn.style.display = 'none';
   });
 
 });
