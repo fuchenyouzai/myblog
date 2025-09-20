@@ -1,5 +1,0 @@
-[
-    {"id":"post1","title":"我的第一篇博文","type":"文章","summary":"这是我的第一篇文章，分享生活与技术。","image":"https://via.placeholder.com/700x300"},
-    {"id":"post2","title":"视频推荐","type":"视频","summary":"分享一个我喜欢的视频。","image":"https://via.placeholder.com/700x300?text=视频封面"},
-    {"id":"post3","title":"音乐分享","type":"音乐","summary":"我喜欢的一首音乐。","image":"https://via.placeholder.com/700x300?text=音乐封面"}
-]
