@@ -55,11 +55,11 @@ a.admin-btn:hover{background-color:#b71c1c;}
   animation: float 2s infinite ease-in-out, shake 1.5s infinite;
 }
 #install-btn:hover { background-color: #388E3C; transform: scale(1.1); }
-@keyframes float {0%,100%{transform:translateY(0);}50%{transform:translateY(-5px);}}
+@keyframes float {0%,100%{transform:translateY(0);}50%{transform:translateY(-5px);} }
 @keyframes shake {0%,100%{transform:translateX(0);}25%{transform:translateX(-3px);}75%{transform:translateX(3px);}}
 
-/* 打开声音按钮悬浮 */
-#unmute-btn {
+/* 声音开关按钮悬浮 */
+#sound-toggle-btn {
   position: fixed;
   bottom: 20px;
   right: 20px;
@@ -73,7 +73,7 @@ a.admin-btn:hover{background-color:#b71c1c;}
   box-shadow: 0 4px 8px rgba(0,0,0,0.2);
   transition: background-color 0.3s, transform 0.2s;
 }
-#unmute-btn:hover {
+#sound-toggle-btn:hover {
   background-color: #b71c1c;
   transform: scale(1.05);
 }
@@ -195,12 +195,15 @@ a.admin-btn:hover{background-color:#b71c1c;}
 <!-- 安装按钮 -->
 <button id="install-btn">📲 点击安装悠哉WebAPK到设备 ᖰ⌯'▾'⌯ᖳ</button>
 
-<!-- 打开声音按钮 -->
-<button id="unmute-btn">🔊 打开声音</button>
+<!-- 声音开关按钮 -->
+<button id="sound-toggle-btn">🔊 打开声音</button>
 
 <!-- Gitalk -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
 <script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+
+<!-- YouTube IFrame API -->
+<script src="https://www.youtube.com/iframe_api"></script>
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
@@ -305,10 +308,9 @@ document.addEventListener('DOMContentLoaded', () => {
       .catch(err => console.log('Service Worker 注册失败:', err));
   }
 
-  // 安装按钮逻辑（Chrome 自动安装，Edge 提示菜单）
+  // 安装按钮逻辑
   const installBtn = document.getElementById('install-btn');
   let deferredPrompt;
-
   const isEdge = /Edg/i.test(navigator.userAgent);
   const isChrome = /Chrome/i.test(navigator.userAgent) && !isEdge;
 
@@ -321,12 +323,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   installBtn.addEventListener('click', async () => {
     if (isChrome) {
-      if (!deferredPrompt) {
-        alert("PWA 安装条件未满足，或已安装");
-        return;
-      }
+      if (!deferredPrompt) { alert("PWA 安装条件未满足，或已安装"); return; }
       deferredPrompt.prompt();
-      const choiceResult = await deferredPrompt.userChoice;
+      await deferredPrompt.userChoice;
       deferredPrompt = null;
     } else if (isEdge) {
       alert("请通过浏览器菜单（右上角 ⋮）选择“添加到桌面”来安装到手机或电脑桌面。");
@@ -335,12 +334,29 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // 打开声音按钮逻辑
-  const liveIframe = document.getElementById('live-iframe');
-  const unmuteBtn = document.getElementById('unmute-btn');
-  unmuteBtn.addEventListener('click', () => {
-    liveIframe.src = liveIframe.src.replace('mute=1', 'mute=0');
-    unmuteBtn.style.display = 'none';
+  // 声音开关按钮逻辑（通过 YouTube Player API）
+  let livePlayer;
+  let soundOn = false;
+
+  window.onYouTubeIframeAPIReady = function() {
+    livePlayer = new YT.Player('live-iframe', {
+      events: { 'onReady': (event) => { event.target.mute(); } }
+    });
+  }
+
+  const soundBtn = document.getElementById('sound-toggle-btn');
+  soundBtn.addEventListener('click', () => {
+    if (!livePlayer) return;
+
+    if (soundOn) {
+      livePlayer.mute();
+      soundBtn.textContent = '🔊 打开声音';
+      soundOn = false;
+    } else {
+      livePlayer.unMute();
+      soundBtn.textContent = '🔇 关闭声音';
+      soundOn = true;
+    }
   });
 
 });
