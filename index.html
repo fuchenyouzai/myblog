@@ -15,57 +15,132 @@
 <link rel="apple-touch-icon" href="/icon-192.png">
 
 <style>
-body{font-family:"Helvetica Neue",Arial,sans-serif;margin:0;padding:0;background:#f4f4f4;color:#333;}
-header{background:#4CAF50;color:white;padding:20px 10px;text-align:center;}
-main{max-width:800px;margin:20px auto;padding:0 10px;}
-article{background:white;margin-bottom:20px;padding:20px;border-radius:10px;box-shadow:0 2px 5px rgba(0,0,0,0.1);}
-h2{color:#4CAF50;}
-img{max-width:100%;border-radius:5px;}
-iframe{width:100%;border:none;border-radius:5px;}
-audio{width:100%;margin-top:10px;}
-footer{text-align:center;padding:15px;background:#333;color:white;margin-top:20px;}
-.gallery{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;}
-.gallery img{width:30%;border-radius:5px;cursor:pointer;transition:transform 0.3s;}
-.gallery img:hover{transform:scale(1.05);}
-a.telegram-btn{display:inline-block;padding:10px 15px;background-color:#0088cc;color:white;border-radius:5px;text-decoration:none;}
-a.telegram-btn:hover{background-color:#006699;}
-a.admin-btn{display:inline-block;padding:10px 15px;background-color:#e53935;color:white;border-radius:5px;font-weight:bold;}
-a.admin-btn:hover{background-color:#b71c1c;}
-.video-container {position: relative;width: 100%;padding-bottom: 56.25%;height: 0;overflow: hidden;border-radius: 5px;}
-.video-container iframe, .video-container #live-player {position: absolute;top: 0;left: 0;width: 100%;height: 100%;border: none;}
-.article-video {position: relative;width: 100%;padding-bottom: 56.25%;height: 0;overflow: hidden;border-radius: 5px;margin: 10px 0;}
-.article-video iframe {position: absolute;top: 0;left: 0;width: 100%;height: 100%;border: none;}
+/* ===== 颜色变量 & 白天/夜晚模式 ===== */
+:root {
+  --bg-color: #f4f4f4;
+  --text-color: #333;
+  --header-bg: #4CAF50;
+  --footer-bg: #333;
+  --footer-text: #fff;
+}
+body.dark-mode {
+  --bg-color: #1e1e1e;
+  --text-color: #f4f4f4;
+  --header-bg: #333;
+  --footer-bg: #222;
+  --footer-text: #f4f4f4;
+}
 
-/* 安装按钮右上角固定始终显示 */
+body {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  font-family: "Helvetica Neue", Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+header {
+  background-color: var(--header-bg);
+  color: white;
+  padding: 20px 10px;
+  text-align: center;
+}
+
+main {
+  max-width: 800px;
+  margin: 20px auto;
+  padding: 0 10px;
+}
+
+article {
+  background:white;
+  margin-bottom:20px;
+  padding:20px;
+  border-radius:10px;
+  box-shadow:0 2px 5px rgba(0,0,0,0.1);
+}
+
+h2 { color:#4CAF50; }
+img { max-width:100%; border-radius:5px; }
+iframe { width:100%; border:none; border-radius:5px; }
+audio { width:100%; margin-top:10px; }
+
+footer {
+  text-align:center;
+  padding:15px;
+  background: var(--footer-bg);
+  color: var(--footer-text);
+  margin-top:20px;
+}
+
+.gallery { display:flex; flex-wrap:wrap; gap:10px; justify-content:center; }
+.gallery img { width:30%; border-radius:5px; cursor:pointer; transition:transform 0.3s; }
+.gallery img:hover { transform:scale(1.05); }
+
+a.telegram-btn, a.admin-btn {
+  display:inline-block;
+  padding:10px 15px;
+  color:white;
+  border-radius:5px;
+  text-decoration:none;
+  font-weight:bold;
+}
+a.telegram-btn { background-color:#0088cc; }
+a.telegram-btn:hover { background-color:#006699; }
+a.admin-btn { background-color:#e53935; }
+a.admin-btn:hover { background-color:#b71c1c; }
+
+.video-container, .article-video {
+  position: relative;
+  width: 100%;
+  padding-bottom: 56.25%;
+  height: 0;
+  overflow: hidden;
+  border-radius: 5px;
+  margin: 10px 0;
+}
+.video-container iframe, .article-video iframe, .video-container #live-player {
+  position: absolute;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  border:none;
+}
+
+/* ===== 右上角竖长方形安装按钮 ===== */
 #install-btn {
   position: fixed;
   top: 20px;
   right: 20px;
   z-index: 999;
+  width: 120px;
   background-color: #4CAF50;
   color: white;
-  padding: 12px 18px;
-  border-radius: 6px;
-  font-weight: bold;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-  cursor: pointer;
-  display: block;
-  transition: background-color 0.3s, transform 0.2s;
+  border-radius: 12px;
   font-size: 14px;
-  animation: float 2s infinite ease-in-out, shake 1.5s infinite;
+  font-weight: bold;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 12px 8px;
+  line-height: 1.5;
+  text-align: center;
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  transition: background-color 0.3s, transform 0.2s;
 }
-#install-btn:hover { background-color: #388E3C; transform: scale(1.1); }
-@keyframes float {0%,100%{transform:translateY(0);}50%{transform:translateY(-5px);} }
-@keyframes shake {0%,100%{transform:translateX(0);}25%{transform:translateX(-3px);}75%{transform:translateX(3px);}}
+#install-btn:hover { 
+  background-color: #388E3C; 
+  transform: scale(1.05); 
+}
 
-/* 声音开关按钮悬浮 */
-#sound-toggle-btn {
+/* ===== 右下角悬浮按钮（声音 & 模式） ===== */
+#sound-toggle-btn, #mode-toggle-btn {
   position: fixed;
   bottom: 20px;
-  right: 20px;
   z-index: 1000;
-  background-color: #e53935;
-  color: white;
   padding: 12px 18px;
   border-radius: 6px;
   font-weight: bold;
@@ -73,10 +148,22 @@ a.admin-btn:hover{background-color:#b71c1c;}
   box-shadow: 0 4px 8px rgba(0,0,0,0.2);
   transition: background-color 0.3s, transform 0.2s;
 }
-#sound-toggle-btn:hover {
-  background-color: #b71c1c;
-  transform: scale(1.05);
+
+#sound-toggle-btn {
+  right: 20px;
+  background-color: #e53935;
+  color: white;
 }
+#sound-toggle-btn:hover { background-color: #b71c1c; transform: scale(1.05); }
+
+#mode-toggle-btn {
+  right: 140px; /* 声音按钮左边 */
+  background-color: #555;
+  color: white;
+  font-size: 14px;
+}
+#mode-toggle-btn:hover { background-color: #333; transform: scale(1.05); }
+
 </style>
 </head>
 <body>
@@ -88,7 +175,6 @@ a.admin-btn:hover{background-color:#b71c1c;}
 
 <main>
 
-<!-- 博客文章示例 -->
 <article>
 <h2>我的第一篇博文</h2>
 <p>这是我的第一篇博客文章，欢迎大家来到我的博客！我会分享生活、技术、旅行和各种有趣的内容。</p>
@@ -98,12 +184,9 @@ a.admin-btn:hover{background-color:#b71c1c;}
 <article>
 <h2>旅行见闻</h2>
 <p>上周我去了黄石公园，那里风景非常美，我拍了很多照片和视频想要分享给大家。</p>
-<p>文章内视频示例：</p>
 <div class="article-video">
-  <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="黄石公园短视频" allow="fullscreen; autoplay; picture-in-picture" allowfullscreen></iframe>
+  <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="黄石公园短视频" allowfullscreen></iframe>
 </div>
-<p>这里继续文章内容，可以是文字描述、图片或其他说明：</p>
-<img src="https://via.placeholder.com/400x200?text=示例图片" alt="示例图片">
 <p>音乐分享：</p>
 <audio controls preload="auto" controlsList="nodownload">
   <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
@@ -111,28 +194,22 @@ a.admin-btn:hover{background-color:#b71c1c;}
 </audio>
 </article>
 
-<!-- 视频推荐 -->
 <article>
 <h2>视频推荐</h2>
-<p>分享一个我喜欢的视频（点击播放即可）：</p>
 <div class="video-container">
-  <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="视频推荐" allow="fullscreen; autoplay; picture-in-picture" allowfullscreen></iframe>
+  <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="视频推荐" allowfullscreen></iframe>
 </div>
 </article>
 
-<!-- 凤凰卫视直播台 -->
 <article>
 <h2>凤凰卫视直播台</h2>
-<p>正在播放凤凰卫视直播：</p>
 <div class="video-container">
   <div id="live-player"></div>
 </div>
 </article>
 
-<!-- 图片展示 -->
 <article>
 <h2>图片展示</h2>
-<p>这里是我想分享的一些照片：</p>
 <div class="gallery">
 <img src="https://raw.githubusercontent.com/fuchenyouzai/youzai/main/t2.jpg" alt="图片1">
 <img src="https://via.placeholder.com/300x200?text=图片2" alt="图片2">
@@ -140,28 +217,18 @@ a.admin-btn:hover{background-color:#b71c1c;}
 </div>
 </article>
 
-<!-- YouTube 频道入口 + 视频墙 -->
 <article>
 <h2>我的 YouTube</h2>
-<p>点击下方按钮访问我的 YouTube 频道：</p>
 <a href="https://www.youtube.com/@拂尘悠哉" target="_blank" class="telegram-btn">访问 YouTube</a>
-<p style="margin-top:15px;">最新视频预览：</p>
 <div id="youtube-feed" style="display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:15px; margin-top:10px;"></div>
 </article>
 
-<!-- Gitalk 留言板 -->
 <article>
 <h2>留言板（Gitalk）</h2>
 <div id="gitalk-container"></div>
-<p style="margin-top:15px; text-align:right;">
-  <a href="https://github.com/fuchenyouzai/youzai/issues" target="_blank" class="admin-btn">
-    查看 GitHub 后台评论
-  </a>
-  <span style="color:#e53935; font-size:12px; margin-left:8px;">（仅站长使用）</span>
-</p>
+<a href="https://github.com/fuchenyouzai/youzai/issues" target="_blank" class="admin-btn" style="margin-top:10px;">查看 GitHub 后台评论</a>
 </article>
 
-<!-- Disqus 留言板 -->
 <article>
 <h2>留言板（Disqus 中文）</h2>
 <div id="disqus_thread"></div>
@@ -173,13 +240,10 @@ a.admin-btn:hover{background-color:#b71c1c;}
     (d.head || d.body).appendChild(s);
 })();
 </script>
-<noscript>请启用 JavaScript 查看 <a href="https://disqus.com/?ref_noscript">Disqus 评论</a></noscript>
 </article>
 
-<!-- Telegram 联系方式 -->
 <article>
 <h2>联系方式</h2>
-<p>欢迎通过 Telegram 联系我：</p>
 <a href="https://t.me/fuchenyouzaibot" target="_blank" class="telegram-btn">联系 Telegram</a>
 </article>
 
@@ -189,11 +253,19 @@ a.admin-btn:hover{background-color:#b71c1c;}
 &copy; 2025 悠哉的博客
 </footer>
 
-<!-- 安装按钮 -->
-<button id="install-btn">📲 点击安装悠哉WebAPK到设备 ᖰ⌯'▾'⌯ᖳ</button>
+<!-- ===== 安装按钮 ===== -->
+<div id="install-btn">
+  点击安装<br>
+  悠哉博客<br>
+  WebApk<br>
+  支持手机<br>
+  支持电脑<br>
+  支持平板
+</div>
 
-<!-- 声音开关按钮 -->
+<!-- ===== 右下角按钮 ===== -->
 <button id="sound-toggle-btn">🔊 打开声音</button>
+<button id="mode-toggle-btn">🌙 夜晚模式</button>
 
 <!-- Gitalk -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
@@ -204,7 +276,6 @@ a.admin-btn:hover{background-color:#b71c1c;}
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
-
   // Gitalk 初始化
   const gitalk = new Gitalk({
     clientID: 'Ov23lijfU0G3M7jiMFAW',
@@ -238,7 +309,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // YouTube 视频墙示例
+  // YouTube 视频墙
   const videos = [
     {id: "ZB9QSD_SWmM", type: "shorts", title: "最新 Shorts 视频"},
     {id: "dQw4w9WgXcQ", type: "video", title: "示例视频 1"},
@@ -290,10 +361,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
       infoDiv.appendChild(titleEl);
       infoDiv.appendChild(btn);
-
       wrapper.appendChild(iframeWrapper);
       wrapper.appendChild(infoDiv);
-
       feedContainer.appendChild(wrapper);
     });
   }
@@ -332,9 +401,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
 });
-</script>
 
-<script>
 // YouTube Player API 全局初始化
 let livePlayer;
 let soundOn = false;
@@ -359,6 +426,17 @@ soundBtn.addEventListener('click', () => {
     livePlayer.unMute();
     soundBtn.textContent = '🔇 关闭声音';
     soundOn = true;
+  }
+});
+
+// 白天/夜晚模式切换逻辑
+const modeBtn = document.getElementById('mode-toggle-btn');
+modeBtn.addEventListener('click', () => {
+  document.body.classList.toggle('dark-mode');
+  if (document.body.classList.contains('dark-mode')) {
+    modeBtn.textContent = "☀️ 白天模式";
+  } else {
+    modeBtn.textContent = "🌙 夜晚模式";
   }
 });
 </script>
