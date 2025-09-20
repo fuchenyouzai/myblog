@@ -31,16 +31,12 @@ a.telegram-btn{display:inline-block;padding:10px 15px;background-color:#0088cc;c
 a.telegram-btn:hover{background-color:#006699;}
 a.admin-btn{display:inline-block;padding:10px 15px;background-color:#e53935;color:white;border-radius:5px;font-weight:bold;}
 a.admin-btn:hover{background-color:#b71c1c;}
-
-/* 响应式视频 */
 .video-container {position: relative;width: 100%;padding-bottom: 56.25%;height: 0;overflow: hidden;border-radius: 5px;}
 .video-container iframe {position: absolute;top: 0;left: 0;width: 100%;height: 100%;border: none;}
-
-/* 文章内嵌视频 */
 .article-video {position: relative;width: 100%;padding-bottom: 56.25%;height: 0;overflow: hidden;border-radius: 5px;margin: 10px 0;}
 .article-video iframe {position: absolute;top: 0;left: 0;width: 100%;height: 100%;border: none;}
 
-/* PWA 安装按钮右上角固定 */
+/* 安装按钮右上角固定始终显示 */
 #install-btn {
   position: fixed;
   top: 20px;
@@ -53,24 +49,14 @@ a.admin-btn:hover{background-color:#b71c1c;}
   font-weight: bold;
   box-shadow: 0 4px 8px rgba(0,0,0,0.2);
   cursor: pointer;
-  display: none;
+  display: block;
   transition: background-color 0.3s, transform 0.2s;
   font-size: 14px;
   animation: float 2s infinite ease-in-out, shake 1.5s infinite;
 }
-#install-btn:hover {
-  background-color: #388E3C;
-  transform: scale(1.1);
-}
-@keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-5px); }
-}
-@keyframes shake {
-  0%, 100% { transform: translateX(0); }
-  25% { transform: translateX(-3px); }
-  75% { transform: translateX(3px); }
-}
+#install-btn:hover { background-color: #388E3C; transform: scale(1.1); }
+@keyframes float {0%,100%{transform:translateY(0);}50%{transform:translateY(-5px);}}
+@keyframes shake {0%,100%{transform:translateX(0);}25%{transform:translateX(-3px);}75%{transform:translateX(3px);}}
 </style>
 </head>
 <body>
@@ -92,12 +78,15 @@ a.admin-btn:hover{background-color:#b71c1c;}
 <article>
 <h2>旅行见闻</h2>
 <p>上周我去了黄石公园，那里风景非常美，我拍了很多照片和视频想要分享给大家。</p>
+
 <p>文章内视频示例：</p>
 <div class="article-video">
   <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="黄石公园短视频" allow="fullscreen; autoplay; picture-in-picture" allowfullscreen></iframe>
 </div>
+
 <p>这里继续文章内容，可以是文字描述、图片或其他说明：</p>
 <img src="https://via.placeholder.com/400x200?text=示例图片" alt="示例图片">
+
 <p>音乐分享：</p>
 <audio controls preload="auto" controlsList="nodownload">
   <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
@@ -183,7 +172,7 @@ a.admin-btn:hover{background-color:#b71c1c;}
 &copy; 2025 悠哉的博客
 </footer>
 
-<!-- 独立 PWA 安装按钮 -->
+<!-- 安装按钮 -->
 <button id="install-btn">📲 点击安装悠哉WebAPK到设备 ᖰ⌯'▾'⌯ᖳ</button>
 
 <!-- Gitalk -->
@@ -225,7 +214,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // YouTube 视频墙
+  // YouTube 视频墙示例
   const videos = [
     {id: "ZB9QSD_SWmM", type: "shorts", title: "最新 Shorts 视频"},
     {id: "dQw4w9WgXcQ", type: "video", title: "示例视频 1"},
@@ -293,23 +282,24 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // Android 安装按钮
-  let deferredPrompt;
   const installBtn = document.getElementById('install-btn');
+  let deferredPrompt;
   window.addEventListener('beforeinstallprompt', (e) => {
     e.preventDefault();
     deferredPrompt = e;
-    installBtn.style.display = 'block';
   });
+
   installBtn.addEventListener('click', async () => {
-    if (!deferredPrompt) return;
+    if (!deferredPrompt) {
+      alert("PWA 安装条件未满足，或已安装");
+      return;
+    }
     deferredPrompt.prompt();
     const choiceResult = await deferredPrompt.userChoice;
     if (choiceResult.outcome === 'accepted') console.log('用户接受安装');
     else console.log('用户拒绝安装');
     deferredPrompt = null;
-    installBtn.style.display = 'none';
   });
-
 });
 </script>
 
