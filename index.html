@@ -149,10 +149,19 @@ a.admin-btn:hover{background-color:#b71c1c;}
 </p>
 </article>
 
-<!-- Disqus 留言板 -->
+<!-- ✅ Disqus 留言板 -->
 <article>
 <h2>留言板（Disqus 中文）</h2>
 <div id="disqus_thread"></div>
+<script>
+(function() { // DON'T EDIT BELOW THIS LINE
+    var d = document, s = d.createElement('script');
+    s.src = 'https://youzaibolg.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>请启用 JavaScript 查看 <a href="https://disqus.com/?ref_noscript">Disqus 评论</a></noscript>
 </article>
 
 <!-- Telegram 联系方式 -->
@@ -209,22 +218,6 @@ document.addEventListener('DOMContentLoaded',()=>{
   });
 });
 </script>
-
-<!-- Disqus -->
-<script>
-var disqus_config = function () {
-    this.page.url = window.location.href;
-    this.page.identifier = location.pathname;
-    this.language = "zh_CN";
-};
-(function() {
-    var d = document, s = d.createElement('script');
-    s.src = 'https://fuchenyouzai.disqus.com/embed.js';
-    s.setAttribute('data-timestamp', +new Date());
-    (d.head || d.body).appendChild(s);
-})();
-</script>
-<noscript>请启用 JavaScript 查看评论。</noscript>
 
 <!-- YouTube 视频墙 JS -->
 <script>
