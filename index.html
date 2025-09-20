@@ -13,18 +13,21 @@ h2{color:#4CAF50;}
 img{max-width:100%;border-radius:5px;}
 iframe{width:100%;height:400px;border:none;border-radius:5px;}
 audio{width:100%;margin-top:10px;}
-form{display:flex;flex-direction:column;}
-input,textarea{margin-bottom:10px;padding:10px;border-radius:5px;border:1px solid #ccc;box-sizing:border-box;}
 button{background:#4CAF50;color:white;padding:10px;border:none;border-radius:5px;cursor:pointer;}
-button:hover{background:#45a049;}
+button:hover{background-color:#45a049;}
 footer{text-align:center;padding:15px;background:#333;color:white;margin-top:20px;}
 .gallery{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;}
 .gallery img{width:30%;border-radius:5px;cursor:pointer;transition:transform 0.3s;}
 .gallery img:hover{transform:scale(1.05);}
-#comments div{border-top:1px solid #ccc;padding:10px 0;}
 a.telegram-btn{display:inline-block;padding:10px 15px;background-color:#0088cc;color:white;border-radius:5px;text-decoration:none;}
 a.telegram-btn:hover{background-color:#006699;}
+a.youtube-btn{display:inline-block;padding:10px 15px;background-color:#FF0000;color:white;border-radius:5px;text-decoration:none;}
+a.youtube-btn:hover{background-color:#CC0000;}
 </style>
+
+<!-- Gitalk 样式 -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk/dist/gitalk.css">
+<script src="https://cdn.jsdelivr.net/npm/gitalk/dist/gitalk.min.js"></script>
 </head>
 <body>
 
@@ -34,18 +37,21 @@ a.telegram-btn:hover{background-color:#006699;}
 </header>
 
 <main>
+<!-- 博文 -->
 <article>
 <h2>我的第一篇博文</h2>
-<p>这是我的第一篇博客文章，欢迎大家来到我的博客！我会分享生活、技术、旅行和各种有趣的内容。</p>
+<p>欢迎来到我的博客！这里分享我的生活、技术、旅行和兴趣内容。</p>
 <img src="https://via.placeholder.com/700x300" alt="示例图片">
 </article>
 
+<!-- 视频推荐 -->
 <article>
 <h2>视频推荐</h2>
 <p>分享一个我喜欢的视频：</p>
 <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="视频推荐" allowfullscreen></iframe>
 </article>
 
+<!-- 音乐播放 -->
 <article>
 <h2>音乐播放</h2>
 <p>我喜欢的一首音乐：</p>
@@ -55,6 +61,7 @@ a.telegram-btn:hover{background-color:#006699;}
 </audio>
 </article>
 
+<!-- 图片展示 -->
 <article>
 <h2>图片展示</h2>
 <p>这里是我想分享的一些照片：</p>
@@ -65,20 +72,24 @@ a.telegram-btn:hover{background-color:#006699;}
 </div>
 </article>
 
+<!-- Gitalk 留言板 -->
 <article>
 <h2>留言板</h2>
-<form onsubmit="submitComment(event)">
-<input type="text" id="name" placeholder="你的名字" required>
-<textarea id="comment" rows="4" placeholder="留言内容" required></textarea>
-<button type="submit">提交留言</button>
-</form>
-<div id="comments" style="margin-top:15px;"></div>
+<div id="gitalk-container"></div>
 </article>
 
+<!-- Telegram 联系方式 -->
 <article>
 <h2>联系方式</h2>
 <p>欢迎通过 Telegram 联系我：</p>
 <a href="https://t.me/fuchenyouzai" target="_blank" class="telegram-btn">联系 Telegram</a>
+</article>
+
+<!-- YouTube 频道 -->
+<article>
+<h2>我的 YouTube 频道</h2>
+<p>欢迎订阅我的 YouTube 频道，获取最新视频内容：</p>
+<a href="https://www.youtube.com/@fuchenyouzai" target="_blank" class="youtube-btn">访问我的频道</a>
 </article>
 
 </main>
@@ -88,34 +99,8 @@ a.telegram-btn:hover{background-color:#006699;}
 </footer>
 
 <script>
-// 留言板 + localStorage
-function loadComments(){
-const comments=JSON.parse(localStorage.getItem('comments')||'[]');
-const commentBox=document.getElementById('comments');
-commentBox.innerHTML='';
-comments.reverse().forEach(item=>{
-const div=document.createElement('div');
-div.innerHTML=`<strong>${item.name}</strong>: ${item.comment}`;
-commentBox.appendChild(div);
-});
-}
-
-function submitComment(e){
-e.preventDefault();
-const name=document.getElementById("name").value.trim();
-const comment=document.getElementById("comment").value.trim();
-if(!name||!comment)return;
-const comments=JSON.parse(localStorage.getItem('comments')||'[]');
-comments.push({name,comment});
-localStorage.setItem('comments',JSON.stringify(comments));
-document.getElementById("name").value="";
-document.getElementById("comment").value="";
-loadComments();
-}
-
 // 图片点击全屏
 document.addEventListener('DOMContentLoaded',()=>{
-loadComments();
 document.querySelectorAll('.gallery img').forEach(img=>{
 img.addEventListener('click',()=>{
 const overlay=document.createElement('div');
@@ -134,6 +119,18 @@ overlay.addEventListener('click',()=>document.body.removeChild(overlay));
 document.body.appendChild(overlay);
 });
 });
+
+// Gitalk 初始化
+const gitalk = new Gitalk({
+  clientID: '你的ClientID',          // GitHub OAuth App ClientID
+  clientSecret: '你的ClientSecret',  // GitHub OAuth App ClientSecret
+  repo: 'youzai',                    // 仓库名
+  owner: 'fuchenyouzai',             // GitHub 用户名
+  admin: ['fuchenyouzai'],           // 管理员用户名
+  id: location.pathname,             // 页面唯一 ID
+  distractionFreeMode: false
+});
+gitalk.render('gitalk-container');
 });
 </script>
 
