@@ -49,7 +49,7 @@ a.admin-btn:hover{background-color:#b71c1c;}
   font-weight: bold;
   box-shadow: 0 4px 8px rgba(0,0,0,0.2);
   cursor: pointer;
-  display: block;
+  display: block; /* 始终显示 */
   transition: background-color 0.3s, transform 0.2s;
   font-size: 14px;
   animation: float 2s infinite ease-in-out, shake 1.5s infinite;
@@ -181,6 +181,7 @@ a.admin-btn:hover{background-color:#b71c1c;}
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
+
   // Gitalk 初始化
   const gitalk = new Gitalk({
     clientID: 'Ov23lijfU0G3M7jiMFAW',
@@ -281,25 +282,36 @@ document.addEventListener('DOMContentLoaded', () => {
       .catch(err => console.log('Service Worker 注册失败:', err));
   }
 
-  // Android 安装按钮
+  // 安装按钮逻辑（Chrome 自动安装，Edge 提示菜单）
   const installBtn = document.getElementById('install-btn');
   let deferredPrompt;
-  window.addEventListener('beforeinstallprompt', (e) => {
-    e.preventDefault();
-    deferredPrompt = e;
-  });
+
+  const isEdge = /Edg/i.test(navigator.userAgent);
+  const isChrome = /Chrome/i.test(navigator.userAgent) && !isEdge;
+
+  if (isChrome) {
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+    });
+  }
 
   installBtn.addEventListener('click', async () => {
-    if (!deferredPrompt) {
-      alert("PWA 安装条件未满足，或已安装");
-      return;
+    if (isChrome) {
+      if (!deferredPrompt) {
+        alert("PWA 安装条件未满足，或已安装");
+        return;
+      }
+      deferredPrompt.prompt();
+      const choiceResult = await deferredPrompt.userChoice;
+      deferredPrompt = null;
+    } else if (isEdge) {
+      alert("请通过浏览器菜单（右上角 ⋮）选择“添加到桌面”来安装到手机或电脑桌面。");
+    } else {
+      alert("当前浏览器不支持自动安装，请使用 Chrome 或 Edge 浏览器。");
     }
-    deferredPrompt.prompt();
-    const choiceResult = await deferredPrompt.userChoice;
-    if (choiceResult.outcome === 'accepted') console.log('用户接受安装');
-    else console.log('用户拒绝安装');
-    deferredPrompt = null;
   });
+
 });
 </script>
 
