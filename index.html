@@ -32,7 +32,7 @@ a.telegram-btn:hover{background-color:#006699;}
 a.admin-btn{display:inline-block;padding:10px 15px;background-color:#e53935;color:white;border-radius:5px;font-weight:bold;}
 a.admin-btn:hover{background-color:#b71c1c;}
 .video-container {position: relative;width: 100%;padding-bottom: 56.25%;height: 0;overflow: hidden;border-radius: 5px;}
-.video-container iframe {position: absolute;top: 0;left: 0;width: 100%;height: 100%;border: none;}
+.video-container iframe, .video-container #live-player {position: absolute;top: 0;left: 0;width: 100%;height: 100%;border: none;}
 .article-video {position: relative;width: 100%;padding-bottom: 56.25%;height: 0;overflow: hidden;border-radius: 5px;margin: 10px 0;}
 .article-video iframe {position: absolute;top: 0;left: 0;width: 100%;height: 100%;border: none;}
 
@@ -98,15 +98,12 @@ a.admin-btn:hover{background-color:#b71c1c;}
 <article>
 <h2>旅行见闻</h2>
 <p>上周我去了黄石公园，那里风景非常美，我拍了很多照片和视频想要分享给大家。</p>
-
 <p>文章内视频示例：</p>
 <div class="article-video">
   <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="黄石公园短视频" allow="fullscreen; autoplay; picture-in-picture" allowfullscreen></iframe>
 </div>
-
 <p>这里继续文章内容，可以是文字描述、图片或其他说明：</p>
 <img src="https://via.placeholder.com/400x200?text=示例图片" alt="示例图片">
-
 <p>音乐分享：</p>
 <audio controls preload="auto" controlsList="nodownload">
   <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
@@ -128,7 +125,7 @@ a.admin-btn:hover{background-color:#b71c1c;}
 <h2>凤凰卫视直播台</h2>
 <p>正在播放凤凰卫视直播：</p>
 <div class="video-container">
-  <iframe id="live-iframe" src="https://www.youtube.com/embed/fN9uYWCjQaw?autoplay=1&mute=1" title="凤凰卫视直播" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
+  <div id="live-player"></div>
 </div>
 </article>
 
@@ -334,31 +331,35 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // 声音开关按钮逻辑（通过 YouTube Player API）
-  let livePlayer;
-  let soundOn = false;
+});
+</script>
 
-  window.onYouTubeIframeAPIReady = function() {
-    livePlayer = new YT.Player('live-iframe', {
-      events: { 'onReady': (event) => { event.target.mute(); } }
-    });
-  }
+<script>
+// YouTube Player API 全局初始化
+let livePlayer;
+let soundOn = false;
 
-  const soundBtn = document.getElementById('sound-toggle-btn');
-  soundBtn.addEventListener('click', () => {
-    if (!livePlayer) return;
-
-    if (soundOn) {
-      livePlayer.mute();
-      soundBtn.textContent = '🔊 打开声音';
-      soundOn = false;
-    } else {
-      livePlayer.unMute();
-      soundBtn.textContent = '🔇 关闭声音';
-      soundOn = true;
-    }
+function onYouTubeIframeAPIReady() {
+  livePlayer = new YT.Player('live-player', {
+    videoId: 'fN9uYWCjQaw', // 凤凰卫视直播视频 ID
+    playerVars: { autoplay: 1, mute: 1, controls: 1, modestbranding: 1 },
+    events: { 'onReady': (event) => { event.target.mute(); } }
   });
+}
 
+// 声音开关按钮逻辑
+const soundBtn = document.getElementById('sound-toggle-btn');
+soundBtn.addEventListener('click', () => {
+  if (!livePlayer) return;
+  if (soundOn) {
+    livePlayer.mute();
+    soundBtn.textContent = '🔊 打开声音';
+    soundOn = false;
+  } else {
+    livePlayer.unMute();
+    soundBtn.textContent = '🔇 关闭声音';
+    soundOn = true;
+  }
 });
 </script>
 
