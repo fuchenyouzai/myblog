@@ -19,6 +19,8 @@ footer{text-align:center;padding:15px;background:#333;color:white;margin-top:20p
 .gallery img:hover{transform:scale(1.05);}
 a.telegram-btn{display:inline-block;padding:10px 15px;background-color:#0088cc;color:white;border-radius:5px;text-decoration:none;}
 a.telegram-btn:hover{background-color:#006699;}
+a.admin-btn{display:inline-block;padding:10px 15px;background-color:#e53935;color:white;border-radius:5px;text-decoration:none;font-weight:bold;}
+a.admin-btn:hover{background-color:#b71c1c;}
 </style>
 </head>
 <body>
@@ -69,6 +71,12 @@ a.telegram-btn:hover{background-color:#006699;}
 <article>
 <h2>留言板</h2>
 <div id="gitalk-container"></div>
+<p style="margin-top:15px; text-align:right;">
+  <a href="https://github.com/fuchenyouzai/youzai/issues" target="_blank" class="admin-btn">
+    查看 GitHub 后台评论
+  </a>
+  <span style="color:#e53935; font-size:12px; margin-left:8px;">（仅站长使用）</span>
+</p>
 </article>
 
 <article>
@@ -83,19 +91,19 @@ a.telegram-btn:hover{background-color:#006699;}
 &copy; 2025 悠哉的博客
 </footer>
 
-<!-- Gitalk 评论系统 -->
+<!-- Gitalk -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
 <script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
 <script>
 const gitalk = new Gitalk({
-  clientID: 'Ov23lijfU0G3M7jiMFAW',   // GitHub OAuth App Client ID
-  clientSecret: '',                   // 留空，避免泄露
-  repo: 'youzai',                     // 评论存放的仓库
+  clientID: 'Ov23lijfU0G3M7jiMFAW',   // 你的 GitHub OAuth App Client ID
+  clientSecret: '',                   // 留空
+  repo: 'youzai',                     // 评论存放仓库
   owner: 'fuchenyouzai',              // GitHub 用户名
   admin: ['fuchenyouzai'],            // 管理员
   id: location.pathname,              // 唯一标识
-  distractionFreeMode: false,         
-  language: 'zh-CN'                   // 界面中文
+  distractionFreeMode: false,
+  language: 'zh-CN'                   // 中文界面
 });
 gitalk.render('gitalk-container');
 
