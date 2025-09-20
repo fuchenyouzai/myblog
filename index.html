@@ -4,6 +4,16 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>悠哉的博客</title>
+
+<!-- PWA Manifest -->
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#4CAF50">
+
+<!-- iOS 支持 -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="悠哉的博客">
+<link rel="apple-touch-icon" href="icon-192.png">
+
 <style>
 body{font-family:"Helvetica Neue",Arial,sans-serif;margin:0;padding:0;background:#f4f4f4;color:#333;}
 header{background:#4CAF50;color:white;padding:20px 10px;text-align:center;}
@@ -23,42 +33,12 @@ a.admin-btn{display:inline-block;padding:10px 15px;background-color:#e53935;colo
 a.admin-btn:hover{background-color:#b71c1c;}
 
 /* 响应式视频 */
-.video-container {
-  position: relative;
-  width: 100%;
-  padding-bottom: 56.25%; /* 16:9 */
-  height: 0;
-  overflow: hidden;
-  border-radius: 5px;
-}
-.video-container iframe {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  border: none;
-}
+.video-container {position: relative;width: 100%;padding-bottom: 56.25%;height: 0;overflow: hidden;border-radius: 5px;}
+.video-container iframe {position: absolute;top: 0;left: 0;width: 100%;height: 100%;border: none;}
 
 /* 文章内嵌视频 */
-.article-video {
-  position: relative;
-  width: 100%;
-  padding-bottom: 56.25%;
-  height: 0;
-  overflow: hidden;
-  border-radius: 5px;
-  margin: 10px 0;
-  cursor: pointer;
-}
-.article-video iframe {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  border: none;
-}
+.article-video {position: relative;width: 100%;padding-bottom: 56.25%;height: 0;overflow: hidden;border-radius: 5px;margin: 10px 0;}
+.article-video iframe {position: absolute;top: 0;left: 0;width: 100%;height: 100%;border: none;}
 </style>
 </head>
 <body>
@@ -70,7 +50,7 @@ a.admin-btn:hover{background-color:#b71c1c;}
 
 <main>
 
-<!-- 博客文章 -->
+<!-- 博客文章示例 -->
 <article>
 <h2>我的第一篇博文</h2>
 <p>这是我的第一篇博客文章，欢迎大家来到我的博客！我会分享生活、技术、旅行和各种有趣的内容。</p>
@@ -78,9 +58,25 @@ a.admin-btn:hover{background-color:#b71c1c;}
 </article>
 
 <article>
-<h2>悠哉</h2>
-<p>我是拂尘悠哉我来自蒙大拿</p>
-<img src="https://raw.githubusercontent.com/fuchenyouzai/youzai/main/t2.jpg" alt="示例图片">
+<h2>旅行见闻</h2>
+<p>上周我去了黄石公园，那里风景非常美，我拍了很多照片和视频想要分享给大家。</p>
+
+<p>视频示例（点击播放）：</p>
+<div class="article-video">
+  <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" 
+          title="黄石公园短视频" 
+          allow="fullscreen" allowfullscreen>
+  </iframe>
+</div>
+
+<p>这里继续文章内容，可以是文字描述、图片或其他说明：</p>
+<img src="https://via.placeholder.com/400x200?text=示例图片" alt="示例图片">
+
+<p>音乐分享：</p>
+<audio controls>
+  <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+您的浏览器不支持音频播放。
+</audio>
 </article>
 
 <!-- 视频推荐 -->
@@ -89,8 +85,7 @@ a.admin-btn:hover{background-color:#b71c1c;}
 <p>分享一个我喜欢的视频：</p>
 <div class="video-container">
   <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" 
-          title="视频推荐" 
-          allowfullscreen>
+          title="视频推荐" allow="fullscreen" allowfullscreen>
   </iframe>
 </div>
 </article>
@@ -101,35 +96,9 @@ a.admin-btn:hover{background-color:#b71c1c;}
 <p>正在播放凤凰卫视直播：</p>
 <div class="video-container">
   <iframe src="https://www.youtube.com/embed/fN9uYWCjQaw?autoplay=1&mute=1" 
-          title="凤凰卫视直播" 
-          allow="autoplay; fullscreen" 
-          allowfullscreen>
+          title="凤凰卫视直播" allow="autoplay; fullscreen" allowfullscreen>
   </iframe>
 </div>
-</article>
-
-<!-- 文章内自动播放视频示例 -->
-<article>
-<h2>文章内自动播放视频示例</h2>
-<p>点击视频可以切换静音/声音：</p>
-<div class="article-video" data-muted="true">
-  <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1&mute=1" 
-          title="文章自动播放视频" 
-          allow="autoplay; fullscreen" 
-          allowfullscreen>
-  </iframe>
-</div>
-<p>视频下方继续文章内容。</p>
-</article>
-
-<!-- 音乐 -->
-<article>
-<h2>音乐播放</h2>
-<p>我喜欢的一首音乐：</p>
-<audio controls>
-<source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
-您的浏览器不支持音频播放。
-</audio>
 </article>
 
 <!-- 图片展示 -->
@@ -220,22 +189,6 @@ document.addEventListener('DOMContentLoaded',()=>{
       document.body.appendChild(overlay);
     });
   });
-
-  // 文章视频点击切换静音/声音
-  document.querySelectorAll('.article-video').forEach(container=>{
-    const iframe = container.querySelector('iframe');
-    container.addEventListener('click',()=>{
-      const isMuted = container.getAttribute('data-muted') === 'true';
-      let src = iframe.src;
-      if(isMuted){
-        src = src.replace('mute=1','mute=0');
-      } else {
-        src = src.replace('mute=0','mute=1');
-      }
-      iframe.src = src;
-      container.setAttribute('data-muted', (!isMuted).toString());
-    });
-  });
 });
 </script>
 
@@ -319,6 +272,21 @@ document.addEventListener("DOMContentLoaded", function() {
     feedContainer.appendChild(wrapper);
   });
 });
+</script>
+
+<!-- 注册 PWA Service Worker -->
+<script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', function() {
+    navigator.serviceWorker.register('./sw.js')
+      .then(registration => {
+        console.log('Service Worker 注册成功:', registration.scope);
+      })
+      .catch(err => {
+        console.log('Service Worker 注册失败:', err);
+      });
+  });
+}
 </script>
 
 </body>
