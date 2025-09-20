@@ -39,6 +39,26 @@ a.admin-btn:hover{background-color:#b71c1c;}
   height: 100%;
   border: none;
 }
+
+/* 文章内嵌视频 */
+.article-video {
+  position: relative;
+  width: 100%;
+  padding-bottom: 56.25%;
+  height: 0;
+  overflow: hidden;
+  border-radius: 5px;
+  margin: 10px 0;
+  cursor: pointer;
+}
+.article-video iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+}
 </style>
 </head>
 <body>
@@ -80,12 +100,26 @@ a.admin-btn:hover{background-color:#b71c1c;}
 <h2>凤凰卫视直播台</h2>
 <p>正在播放凤凰卫视直播：</p>
 <div class="video-container">
-  <iframe src="https://www.youtube.com/embed/fN9uYWCjQaw?autoplay=1" 
+  <iframe src="https://www.youtube.com/embed/fN9uYWCjQaw?autoplay=1&mute=1" 
           title="凤凰卫视直播" 
           allow="autoplay; fullscreen" 
           allowfullscreen>
   </iframe>
 </div>
+</article>
+
+<!-- 文章内自动播放视频示例 -->
+<article>
+<h2>文章内自动播放视频示例</h2>
+<p>点击视频可以切换静音/声音：</p>
+<div class="article-video" data-muted="true">
+  <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1&mute=1" 
+          title="文章自动播放视频" 
+          allow="autoplay; fullscreen" 
+          allowfullscreen>
+  </iframe>
+</div>
+<p>视频下方继续文章内容。</p>
 </article>
 
 <!-- 音乐 -->
@@ -186,6 +220,22 @@ document.addEventListener('DOMContentLoaded',()=>{
       document.body.appendChild(overlay);
     });
   });
+
+  // 文章视频点击切换静音/声音
+  document.querySelectorAll('.article-video').forEach(container=>{
+    const iframe = container.querySelector('iframe');
+    container.addEventListener('click',()=>{
+      const isMuted = container.getAttribute('data-muted') === 'true';
+      let src = iframe.src;
+      if(isMuted){
+        src = src.replace('mute=1','mute=0');
+      } else {
+        src = src.replace('mute=0','mute=1');
+      }
+      iframe.src = src;
+      container.setAttribute('data-muted', (!isMuted).toString());
+    });
+  });
 });
 </script>
 
@@ -207,63 +257,67 @@ var disqus_config = function () {
 
 <!-- YouTube 视频墙 JS -->
 <script>
-const videos = [
-  {id: "ZB9QSD_SWmM", type: "shorts", title: "最新 Shorts 视频"},
-  {id: "dQw4w9WgXcQ", type: "video", title: "示例视频 1"},
-  {id: "oHg5SJYRHA0", type: "video", title: "示例视频 2"}
-];
+document.addEventListener("DOMContentLoaded", function() {
+  const videos = [
+    {id: "ZB9QSD_SWmM", type: "shorts", title: "最新 Shorts 视频"},
+    {id: "dQw4w9WgXcQ", type: "video", title: "示例视频 1"},
+    {id: "oHg5SJYRHA0", type: "video", title: "示例视频 2"}
+  ];
 
-const feedContainer = document.getElementById("youtube-feed");
+  const feedContainer = document.getElementById("youtube-feed");
+  if (!feedContainer) return;
 
-videos.forEach(v => {
-  const wrapper = document.createElement("div");
-  wrapper.style.display = "flex";
-  wrapper.style.flexDirection = "column";
-  wrapper.style.gap = "5px";
+  videos.forEach(v => {
+    const wrapper = document.createElement("div");
+    wrapper.style.display = "flex";
+    wrapper.style.flexDirection = "column";
+    wrapper.style.gap = "5px";
 
-  const iframeWrapper = document.createElement("div");
-  iframeWrapper.style.position = "relative";
-  iframeWrapper.style.width = "100%";
-  iframeWrapper.style.height = 0;
-  iframeWrapper.style.overflow = "hidden";
-  iframeWrapper.style.borderRadius = "5px";
-  iframeWrapper.style.paddingBottom = v.type === "shorts" ? "177.78%" : "56.25%";
+    const iframeWrapper = document.createElement("div");
+    iframeWrapper.style.position = "relative";
+    iframeWrapper.style.width = "100%";
+    iframeWrapper.style.height = 0;
+    iframeWrapper.style.overflow = "hidden";
+    iframeWrapper.style.borderRadius = "5px";
+    iframeWrapper.style.paddingBottom = v.type === "shorts" ? "177.78%" : "56.25%";
 
-  iframeWrapper.innerHTML = `<iframe src="https://www.youtube.com/embed/${v.id}" 
-          style="position:absolute;top:0;left:0;width:100%;height:100%;border:none;"
-          title="${v.title}" allowfullscreen></iframe>`;
+    iframeWrapper.innerHTML = `<iframe src="https://www.youtube.com/embed/${v.id}" 
+            style="position:absolute;top:0;left:0;width:100%;height:100%;border:none;"
+            title="${v.title}" allowfullscreen></iframe>`;
 
-  const infoDiv = document.createElement("div");
-  infoDiv.style.display = "flex";
-  infoDiv.style.flexDirection = "column";
-  infoDiv.style.alignItems = "center";
-  infoDiv.style.gap = "5px";
+    const infoDiv = document.createElement("div");
+    infoDiv.style.display = "flex";
+    infoDiv.style.flexDirection = "column";
+    infoDiv.style.alignItems = "center";
+    infoDiv.style.gap = "5px";
 
-  const titleEl = document.createElement("p");
-  titleEl.textContent = v.title;
-  titleEl.style.textAlign = "center";
-  titleEl.style.margin = "0";
-  titleEl.style.fontWeight = "bold";
-  titleEl.style.fontSize = "14px";
+    const titleEl = document.createElement("p");
+    titleEl.textContent = v.title;
+    titleEl.style.textAlign = "center";
+    titleEl.style.margin = "0";
+    titleEl.style.fontWeight = "bold";
+    titleEl.style.fontSize = "14px";
 
-  const btn = document.createElement("a");
-  btn.href = `https://www.youtube.com/watch?v=${v.id}`;
-  btn.target = "_blank";
-  btn.textContent = "在 YouTube 上观看";
-  btn.style.display = "inline-block";
-  btn.style.padding = "5px 10px";
-  btn.style.backgroundColor = "#ff0000";
-  btn.style.color = "#fff";
-  btn.style.borderRadius = "4px";
-  btn.style.fontSize = "12px";
-  btn.style.textDecoration = "none";
+    const btn = document.createElement("a");
+    btn.href = `https://www.youtube.com/watch?v=${v.id}`;
+    btn.target = "_blank";
+    btn.textContent = "在 YouTube 上观看";
+    btn.style.display = "inline-block";
+    btn.style.padding = "5px 10px";
+    btn.style.backgroundColor = "#ff0000";
+    btn.style.color = "#fff";
+    btn.style.borderRadius = "4px";
+    btn.style.fontSize = "12px";
+    btn.style.textDecoration = "none";
 
-  infoDiv.appendChild(titleEl);
-  infoDiv.appendChild(btn);
+    infoDiv.appendChild(titleEl);
+    infoDiv.appendChild(btn);
 
-  wrapper.appendChild(infoDiv);
+    wrapper.appendChild(iframeWrapper);
+    wrapper.appendChild(infoDiv);
 
-  feedContainer.appendChild(wrapper);
+    feedContainer.appendChild(wrapper);
+  });
 });
 </script>
 
