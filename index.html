@@ -22,7 +22,7 @@ a.telegram-btn:hover{background-color:#006699;}
 a.admin-btn{display:inline-block;padding:10px 15px;background-color:#e53935;color:white;border-radius:5px;text-decoration:none;font-weight:bold;}
 a.admin-btn:hover{background-color:#b71c1c;}
 
-/* 响应式单视频 */
+/* 响应式视频 */
 .video-container {
   position: relative;
   width: 100%;
@@ -57,21 +57,32 @@ a.admin-btn:hover{background-color:#b71c1c;}
 <img src="https://raw.githubusercontent.com/fuchenyouzai/youzai/main/t2.jpg" alt="示例图片">
 </article>
 
-<!-- 博客文章 -->
 <article>
 <h2>悠哉</h2>
 <p>我是拂尘悠哉我来自蒙大拿</p>
 <img src="https://raw.githubusercontent.com/fuchenyouzai/youzai/main/t2.jpg" alt="示例图片">
 </article>
 
-
 <!-- 视频推荐 -->
 <article>
 <h2>视频推荐</h2>
 <p>分享一个我喜欢的视频：</p>
 <div class="video-container">
-  <iframe src="https://www.youtube.com/embed/fN9uYWCjQaw?autoplay=1" 
+  <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" 
           title="视频推荐" 
+          allowfullscreen>
+  </iframe>
+</div>
+</article>
+
+<!-- 凤凰卫视直播台 -->
+<article>
+<h2>凤凰卫视直播台</h2>
+<p>正在播放凤凰卫视直播：</p>
+<div class="video-container">
+  <iframe src="https://www.youtube.com/embed/fN9uYWCjQaw?autoplay=1" 
+          title="凤凰卫视直播" 
+          allow="autoplay; fullscreen" 
           allowfullscreen>
   </iframe>
 </div>
@@ -250,7 +261,6 @@ videos.forEach(v => {
   infoDiv.appendChild(titleEl);
   infoDiv.appendChild(btn);
 
-  wrapper.appendChild(iframeWrapper);
   wrapper.appendChild(infoDiv);
 
   feedContainer.appendChild(wrapper);
