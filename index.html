@@ -21,6 +21,24 @@ a.telegram-btn{display:inline-block;padding:10px 15px;background-color:#0088cc;c
 a.telegram-btn:hover{background-color:#006699;}
 a.admin-btn{display:inline-block;padding:10px 15px;background-color:#e53935;color:white;border-radius:5px;text-decoration:none;font-weight:bold;}
 a.admin-btn:hover{background-color:#b71c1c;}
+
+/* 响应式单视频 */
+.video-container {
+  position: relative;
+  width: 100%;
+  padding-bottom: 56.25%; /* 16:9 */
+  height: 0;
+  overflow: hidden;
+  border-radius: 5px;
+}
+.video-container iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+}
 </style>
 </head>
 <body>
@@ -31,6 +49,7 @@ a.admin-btn:hover{background-color:#b71c1c;}
 </header>
 
 <main>
+
 <!-- 博客文章 -->
 <article>
 <h2>我的第一篇博文</h2>
@@ -38,11 +57,16 @@ a.admin-btn:hover{background-color:#b71c1c;}
 <img src="https://raw.githubusercontent.com/fuchenyouzai/youzai/main/t2.jpg" alt="示例图片">
 </article>
 
-<!-- 视频 -->
+<!-- 视频推荐 -->
 <article>
 <h2>视频推荐</h2>
 <p>分享一个我喜欢的视频：</p>
-<iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="视频推荐" allowfullscreen></iframe>
+<div class="video-container">
+  <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" 
+          title="视频推荐" 
+          allowfullscreen>
+  </iframe>
+</div>
 </article>
 
 <!-- 音乐 -->
@@ -73,7 +97,7 @@ a.admin-btn:hover{background-color:#b71c1c;}
 <a href="https://www.youtube.com/@拂尘悠哉" target="_blank" class="telegram-btn">访问 YouTube</a>
 
 <p style="margin-top:15px;">最新视频预览：</p>
-<div id="youtube-feed" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:15px;margin-top:10px;"></div>
+<div id="youtube-feed" style="display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:15px; margin-top:10px;"></div>
 </article>
 
 <!-- Gitalk 留言板 -->
@@ -162,7 +186,7 @@ var disqus_config = function () {
 </script>
 <noscript>请启用 JavaScript 查看评论。</noscript>
 
-<!-- YouTube 视频墙 -->
+<!-- YouTube 视频墙 JS -->
 <script>
 const videos = [
   {id: "ZB9QSD_SWmM", type: "shorts", title: "最新 Shorts 视频"},
@@ -180,12 +204,11 @@ videos.forEach(v => {
 
   const iframeWrapper = document.createElement("div");
   iframeWrapper.style.position = "relative";
-  iframeWrapper.style.height = "0";
+  iframeWrapper.style.width = "100%";
+  iframeWrapper.style.height = 0;
   iframeWrapper.style.overflow = "hidden";
   iframeWrapper.style.borderRadius = "5px";
-  iframeWrapper.style.width = "100%";
-
-  iframeWrapper.style.paddingBottom = v.type==="shorts"?"177.78%":"56.25%";
+  iframeWrapper.style.paddingBottom = v.type === "shorts" ? "177.78%" : "56.25%";
 
   iframeWrapper.innerHTML = `<iframe src="https://www.youtube.com/embed/${v.id}" 
           style="position:absolute;top:0;left:0;width:100%;height:100%;border:none;"
