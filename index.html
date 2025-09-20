@@ -48,10 +48,13 @@ a.admin-btn:hover{background-color:#b71c1c;}
   z-index: 999;
   background-color: #4CAF50;
   color: white;
-  padding: 10px 15px;
-  border-radius: 5px;
+  padding: 12px 18px;
+  border-radius: 6px;
+  font-weight: bold;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
   cursor: pointer;
   display: none;
+  transition: background-color 0.3s, transform 0.2s;
 }
 #install-btn:hover { background-color: #388E3C; }
 </style>
@@ -79,8 +82,7 @@ a.admin-btn:hover{background-color:#b71c1c;}
 <p>文章内视频示例：</p>
 <div class="article-video">
   <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" 
-          title="黄石公园短视频" 
-          allow="fullscreen" allowfullscreen>
+          title="黄石公园短视频" allow="fullscreen" allowfullscreen>
   </iframe>
 </div>
 
@@ -149,12 +151,12 @@ a.admin-btn:hover{background-color:#b71c1c;}
 </p>
 </article>
 
-<!-- ✅ Disqus 留言板 -->
+<!-- Disqus 留言板 -->
 <article>
 <h2>留言板（Disqus 中文）</h2>
 <div id="disqus_thread"></div>
 <script>
-(function() { // DON'T EDIT BELOW THIS LINE
+(function() { 
     var d = document, s = d.createElement('script');
     s.src = 'https://youzaibolg.disqus.com/embed.js';
     s.setAttribute('data-timestamp', +new Date());
@@ -177,8 +179,8 @@ a.admin-btn:hover{background-color:#b71c1c;}
 &copy; 2025 悠哉的博客
 </footer>
 
-<!-- Android 安装按钮 -->
-<button id="install-btn">安装到桌面</button>
+<!-- 独立 PWA 安装按钮 -->
+<button id="install-btn">📲 安装到桌面</button>
 
 <!-- Gitalk -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
@@ -191,28 +193,29 @@ const gitalk = new Gitalk({
   owner: 'fuchenyouzai',
   admin: ['fuchenyouzai'],
   id: location.pathname,
-  distractionFreeMode: false,
+  distraction
+  FreeMode: false,
   language: 'zh-CN'
 });
 gitalk.render('gitalk-container');
 
 // 图片点击放大
-document.addEventListener('DOMContentLoaded',()=>{
-  document.querySelectorAll('.gallery img').forEach(img=>{
-    img.addEventListener('click',()=>{
-      const overlay=document.createElement('div');
-      overlay.style.position='fixed';
-      overlay.style.top=0;
-      overlay.style.left=0;
-      overlay.style.width='100%';
-      overlay.style.height='100%';
-      overlay.style.background='rgba(0,0,0,0.8)';
-      overlay.style.display='flex';
-      overlay.style.justifyContent='center';
-      overlay.style.alignItems='center';
-      overlay.style.cursor='pointer';
-      overlay.innerHTML=`<img src="${img.src}" style="max-width:90%; max-height:90%; border-radius:5px;">`;
-      overlay.addEventListener('click',()=>document.body.removeChild(overlay));
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('.gallery img').forEach(img => {
+    img.addEventListener('click', () => {
+      const overlay = document.createElement('div');
+      overlay.style.position = 'fixed';
+      overlay.style.top = 0;
+      overlay.style.left = 0;
+      overlay.style.width = '100%';
+      overlay.style.height = '100%';
+      overlay.style.background = 'rgba(0,0,0,0.8)';
+      overlay.style.display = 'flex';
+      overlay.style.justifyContent = 'center';
+      overlay.style.alignItems = 'center';
+      overlay.style.cursor = 'pointer';
+      overlay.innerHTML = `<img src="${img.src}" style="max-width:90%; max-height:90%; border-radius:5px;">`;
+      overlay.addEventListener('click', () => document.body.removeChild(overlay));
       document.body.appendChild(overlay);
     });
   });
